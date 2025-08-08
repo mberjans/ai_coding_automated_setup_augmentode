@@ -58,3 +58,8 @@ Environment variables are merged at runtime. Secrets are never emitted to logs.
 - Python 3.11+
 
 This project intentionally avoids object-oriented patterns and list comprehensions, and does not use regular expressions. Prefer functional style and explicit pattern-matching functions.
+
+## Logging
+
+Structured JSON logging is provided by the project.
+See `docs/logging.md` for usage, redaction behavior, correlation ID, and handler setup.
