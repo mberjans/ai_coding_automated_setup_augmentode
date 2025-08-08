@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Dict, List
 import zipfile
 
-from ..normalize import normalize_newlines, utf8_decode_remove_bom
+from ..normalize import normalize_newlines, utf8_decode_remove_bom, remove_control_chars
 from .. import mapping
 
 
@@ -52,6 +52,7 @@ def parse_docx(src_path: Path, base_dir: Path) -> Dict[str, object]:
     # Join as lines and normalize
     text = "\n".join(paragraphs)
     text = normalize_newlines(text)
+    text = remove_control_chars(text)
 
     out_dir = _ensure_output_dir(base)
     out_name = p.stem + ".txt"
@@ -123,6 +124,7 @@ def parse_pptx(src_path: Path, base_dir: Path) -> Dict[str, object]:
     # Join slides with separator line
     combined = "\n---\n".join(slides_texts)
     text = normalize_newlines(combined)
+    text = remove_control_chars(text)
 
     out_dir = _ensure_output_dir(base)
     out_name = p.stem + ".txt"

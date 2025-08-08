@@ -23,3 +23,17 @@ def normalize_newlines(text: str) -> str:
     if not text.endswith("\n"):
         text = text + "\n"
     return text
+
+
+def remove_control_chars(text: str) -> str:
+    # Remove ASCII control characters except newline and tab
+    # Keep chars with code >= 32, plus \n and \t
+    out = []
+    i = 0
+    while i < len(text):
+        ch = text[i]
+        code = ord(ch)
+        if code >= 32 or ch == "\n" or ch == "\t":
+            out.append(ch)
+        i = i + 1
+    return "".join(out)

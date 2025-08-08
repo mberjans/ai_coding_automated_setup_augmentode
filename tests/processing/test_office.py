@@ -88,3 +88,36 @@ def test_parse_pptx_extracts_slides_with_separators(tmp_path: Path):
     assert "First slide" in text
     assert "Second" in text
     assert "\n---\n" in text
+
+
+# TICKET-007.02: Failing tests for control character removal and newline normalization
+
+def test_docx_control_chars_removed_and_cr_normalized(tmp_path: Path):
+    from src.processing.parsers import docx_pptx
+
+    src = tmp_path / "ctrl.docx"
+    # Inject NUL and CR into text nodes
+    _mk_minimal_docx(src, ["Hello\x00\rWorld"])
+
+    out = docx_pptx.parse_docx(src, tmp_path)
+    text = out["text"]
+    # Expect CR converted to LF and NUL removed
+    assert text == "Hello\nWorld\n"
+    # No other control chars remain
+    for ch in text:
+        assert (ord(ch) >= 32) or (ch == "\n") or (ch == "\t")
+
+
+def test_pptx_control_chars_removed_and_cr_normalized(tmp_path: Path):
+    from src.processing.parsers import docx_pptx
+
+    src = tmp_path / "ctrl.pptx"
+    # Inject BEL, US, and CR across slides
+    _mk_minimal_pptx(src, [["A\x07\rB"], ["C\x1F"]])
+
+    out = docx_pptx.parse_pptx(src, tmp_path)
+    text = out["text"]
+    # Expect CR converted to LF, others removed, separator present
+    assert text == "A\nB\n---\nC\n"
+    for ch in text:
+        assert (ord(ch) >= 32) or (ch == "\n") or (ch == "\t")

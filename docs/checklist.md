@@ -66,7 +66,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 
 #### TICKET-007 — Office Docs Parser (DOCX, PPTX)
 - [x] TICKET-007.01 Write failing tests in tests/processing/test_office.py for docx paragraph extraction and pptx slide separation markers.
-- [ ] TICKET-007.02 Add tests for control character removal and newline normalization.
+- [x] TICKET-007.02 Add tests for control character removal and newline normalization.
 - [ ] TICKET-007.03 Implement src/processing/parsers/docx_pptx.py using python-docx and python-pptx; expose parse_docx and parse_pptx.
 - [ ] TICKET-007.04 Run tests; validate counts of paragraphs/slides recorded for mapping later.
 - [ ] TICKET-007.05 Refactor shared IO into src/processing/io.py to avoid duplication.
