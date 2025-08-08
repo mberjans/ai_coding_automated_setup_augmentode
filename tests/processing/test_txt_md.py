@@ -93,3 +93,28 @@ def test_parse_md_without_front_matter_keeps_headings(tmp_path: Path):
     out = txt_md.parse_md(src, tmp_path)
     text = out["text"]
     assert text.startswith("# Title\n")
+
+
+# TICKET-006.05: Negative case for invalid encoding should surface a clear error.
+def test_parse_txt_invalid_encoding_raises(tmp_path: Path):
+    from src.processing.parsers import txt_md
+
+    src = tmp_path / "bad.txt"
+    with open(src, "wb") as f:
+        f.write(b"\xff\xfe\x00")
+
+    with pytest.raises(ValueError) as e:
+        txt_md.parse_txt(src, tmp_path)
+    assert "Invalid UTF-8" in str(e.value)
+
+
+def test_parse_md_invalid_encoding_raises(tmp_path: Path):
+    from src.processing.parsers import txt_md
+
+    src = tmp_path / "bad.md"
+    with open(src, "wb") as f:
+        f.write(b"\xff\xfe\x00")
+
+    with pytest.raises(ValueError) as e:
+        txt_md.parse_md(src, tmp_path)
+    assert "Invalid UTF-8" in str(e.value)
