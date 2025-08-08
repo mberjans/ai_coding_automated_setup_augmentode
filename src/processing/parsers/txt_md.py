@@ -2,6 +2,7 @@
 
 from pathlib import Path
 from typing import Dict
+from .. import mapping
 
 
 def _read_bytes(p: Path) -> bytes:
@@ -58,7 +59,8 @@ def parse_txt(src_path: Path, base_dir: Path) -> Dict[str, object]:
     out_path = out_dir / p.name
     _write_text_file(out_path, text)
 
-    return {"out_path": str(out_path), "text": text}
+    map_entry = mapping.capture_paths(p, out_path)
+    return {"out_path": str(out_path), "text": text, "mapping": map_entry}
 
 
 def _strip_md_front_matter(text: str) -> str:
@@ -106,5 +108,6 @@ def parse_md(src_path: Path, base_dir: Path) -> Dict[str, object]:
     target_name = _md_target_name(p.name)
     out_path = out_dir / target_name
     _write_text_file(out_path, text)
-
-    return {"out_path": str(out_path), "text": text}
+    
+    map_entry = mapping.capture_paths(p, out_path)
+    return {"out_path": str(out_path), "text": text, "mapping": map_entry}

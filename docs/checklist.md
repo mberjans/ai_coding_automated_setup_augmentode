@@ -60,7 +60,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-006.01 Write failing tests in tests/processing/test_txt_md.py for reading .txt/.md, UTF-8 normalization, and output path in processed_documents/text/.
 - [x] TICKET-006.02 Add tests for .md front-matter stripping (when present) and heading preservation.
 - [x] TICKET-006.03 Implement src/processing/parsers/txt_md.py with safe filename creation and normalization utilities.
-- [ ] TICKET-006.04 Update mapping writer stub to capture original and processed paths (will be finalized in TICKET-012).
+- [x] TICKET-006.04 Update mapping writer stub to capture original and processed paths (will be finalized in TICKET-012).
 - [ ] TICKET-006.05 Run tests; ensure negative case for invalid encoding handled with clear error.
 - [ ] TICKET-006.06 Refactor normalization helpers into src/processing/normalize.py for reuse.
 
