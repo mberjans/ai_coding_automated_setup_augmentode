@@ -61,6 +61,38 @@ def parse_txt(src_path: Path, base_dir: Path) -> Dict[str, object]:
     return {"out_path": str(out_path), "text": text}
 
 
+def _strip_md_front_matter(text: str) -> str:
+    # Remove initial YAML front-matter delimited by lines containing only '---'
+    # Only strip if it appears at the very top of the document.
+    lines = text.split("\n")
+    if len(lines) == 0:
+        return text
+    first = lines[0].strip()
+    if first != "---":
+        return text
+    idx = 1
+    end_idx = -1
+    while idx < len(lines):
+        current = lines[idx].strip()
+        if current == "---":
+            end_idx = idx
+            break
+        idx = idx + 1
+    if end_idx == -1:
+        # No closing fence; do not strip
+        return text
+    # Rebuild without the front-matter block
+    remaining_lines = []
+    j = end_idx + 1
+    while j < len(lines):
+        remaining_lines.append(lines[j])
+        j = j + 1
+    new_text = "\n".join(remaining_lines)
+    if not new_text.endswith("\n"):
+        new_text = new_text + "\n"
+    return new_text
+
+
 def parse_md(src_path: Path, base_dir: Path) -> Dict[str, object]:
     p = Path(src_path)
     base = Path(base_dir)
@@ -68,6 +100,7 @@ def parse_md(src_path: Path, base_dir: Path) -> Dict[str, object]:
     raw = _read_bytes(p)
     text = _utf8_decode_remove_bom(raw)
     text = _normalize_newlines(text)
+    text = _strip_md_front_matter(text)
 
     out_dir = _ensure_output_dir(base)
     target_name = _md_target_name(p.name)
