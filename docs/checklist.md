@@ -50,7 +50,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 ### Phase 1 — Document Processing Pipeline
 
 #### TICKET-005 — Format Detection & Routing
-- [ ] TICKET-005.01 Write failing tests in tests/processing/test_detection.py mapping extensions to handlers (txt, md, docx, xlsx, csv, tsv, pdf, pptx, png, jpeg, svg).
+- [x] TICKET-005.01 Write failing tests in tests/processing/test_detection.py mapping extensions to handlers (txt, md, docx, xlsx, csv, tsv, pdf, pptx, png, jpeg, svg).
 - [ ] TICKET-005.02 Add tests for unknown/unsupported extensions → skipped with reason; ensure logs contain skip entry.
 - [ ] TICKET-005.03 Implement src/processing/detection.py with explicit if/elif routing to parser modules; return handler enums.
 - [ ] TICKET-005.04 Expose a registry in src/processing/registry.py mapping format to callable parser.
