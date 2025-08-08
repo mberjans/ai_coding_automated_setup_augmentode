@@ -14,7 +14,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-001.05 Add scripts/venv_create.sh and scripts/venv_activate.sh to create/activate Python venv in .venv/.
 - [x] TICKET-001.06 Add a venv marker file at .venv/.project_venv and a runtime check in src/__init__.py to warn if not in venv.
 - [x] TICKET-001.07 Implement basic package entry `python -m src.cli` path and verify module discovery works locally.
-- [ ] TICKET-001.08 Run tests; ensure CLI help test passes; ensure env isolation test passes; refactor argparse setup for clarity.
+- [x] TICKET-001.08 Run tests; ensure CLI help test passes; ensure env isolation test passes; refactor argparse setup for clarity.
 - [ ] TICKET-001.09 Document quickstart in README section: venv creation, activation, run `python -m src.cli --help`.
 
 #### TICKET-002 — Configuration Schema & Loader
