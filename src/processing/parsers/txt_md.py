@@ -1,0 +1,77 @@
+# Parser stubs for text and markdown
+
+from pathlib import Path
+from typing import Dict
+
+
+def _read_bytes(p: Path) -> bytes:
+    with open(p, "rb") as f:
+        return f.read()
+
+
+def _utf8_decode_remove_bom(data: bytes) -> str:
+    # Remove UTF-8 BOM if present
+    if len(data) >= 3:
+        if data[0] == 0xEF and data[1] == 0xBB and data[2] == 0xBF:
+            data = data[3:]
+    return data.decode("utf-8")
+
+
+def _normalize_newlines(text: str) -> str:
+    # Convert CRLF and CR to LF
+    text = text.replace("\r\n", "\n")
+    text = text.replace("\r", "\n")
+    # Ensure trailing newline
+    if not text.endswith("\n"):
+        text = text + "\n"
+    return text
+
+
+def _ensure_output_dir(base_dir: Path) -> Path:
+    out_dir = base_dir / "processed_documents" / "text"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    return out_dir
+
+
+def _write_text_file(path: Path, text: str) -> None:
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(text)
+
+
+def _md_target_name(src_name: str) -> str:
+    # Change .md or .MD to .txt, otherwise append .txt as fallback
+    lower = src_name.lower()
+    if lower.endswith(".md"):
+        return src_name[: -len(".md")] + ".txt"
+    return src_name + ".txt"
+
+
+def parse_txt(src_path: Path, base_dir: Path) -> Dict[str, object]:
+    p = Path(src_path)
+    base = Path(base_dir)
+
+    raw = _read_bytes(p)
+    text = _utf8_decode_remove_bom(raw)
+    text = _normalize_newlines(text)
+
+    out_dir = _ensure_output_dir(base)
+    out_path = out_dir / p.name
+    _write_text_file(out_path, text)
+
+    return {"out_path": str(out_path), "text": text}
+
+
+def parse_md(src_path: Path, base_dir: Path) -> Dict[str, object]:
+    p = Path(src_path)
+    base = Path(base_dir)
+
+    raw = _read_bytes(p)
+    text = _utf8_decode_remove_bom(raw)
+    text = _normalize_newlines(text)
+
+    out_dir = _ensure_output_dir(base)
+    target_name = _md_target_name(p.name)
+    out_path = out_dir / target_name
+    _write_text_file(out_path, text)
+
+    return {"out_path": str(out_path), "text": text}
