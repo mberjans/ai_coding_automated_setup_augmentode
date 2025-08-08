@@ -28,9 +28,9 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-002.08 Add documentation block in README for configuration keys and environment variables.
 
 #### TICKET-003 — Structured Logging & Telemetry Scaffolding
-- [ ] TICKET-003.01 Write failing tests in tests/logging/test_json_logger.py asserting JSON structure, levels, and redaction of API keys.
+- [x] TICKET-003.01 Write failing tests in tests/logging/test_json_logger.py asserting JSON structure, levels, and redaction of API keys.
 - [ ] TICKET-003.02 Write tests that rotating file handler writes to logs/app.log and console level respects config.
-- [ ] TICKET-003.03 Implement src/logging/json_logger.py with get_logger(name, level) returning structured logger; add redaction filter.
+- [x] TICKET-003.03 Implement src/logging/json_logger.py with get_logger(name, level) returning structured logger; add redaction filter.
 - [ ] TICKET-003.04 Implement src/logging/handlers.py configuring file and console handlers; ensure per-run correlation ID.
 - [ ] TICKET-003.05 Wire logger into src/cli.py for `--verbose` flag support.
 - [ ] TICKET-003.06 Run tests; verify redaction works for strings containing patterns like "key=" and environment variable names.
