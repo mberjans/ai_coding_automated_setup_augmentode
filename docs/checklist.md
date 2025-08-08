@@ -32,7 +32,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-003.02 Write tests that rotating file handler writes to logs/app.log and console level respects config.
 - [x] TICKET-003.03 Implement src/logging/json_logger.py with get_logger(name, level) returning structured logger; add redaction filter.
 - [ ] TICKET-003.04 Implement src/logging/handlers.py configuring file and console handlers; ensure per-run correlation ID.
-- [ ] TICKET-003.05 Wire logger into src/cli.py for `--verbose` flag support.
+- [x] TICKET-003.05 Wire logger into src/cli.py for `--verbose` flag support.
 - [ ] TICKET-003.06 Run tests; verify redaction works for strings containing patterns like "key=" and environment variable names.
 - [ ] TICKET-003.07 Refactor logging setup for minimal global state; document logging usage in docs/.
 
