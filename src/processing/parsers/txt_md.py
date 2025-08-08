@@ -2,33 +2,13 @@
 
 from pathlib import Path
 from typing import Dict
+from ..normalize import utf8_decode_remove_bom, normalize_newlines
 from .. import mapping
 
 
 def _read_bytes(p: Path) -> bytes:
     with open(p, "rb") as f:
         return f.read()
-
-
-def _utf8_decode_remove_bom(data: bytes) -> str:
-    # Remove UTF-8 BOM if present
-    if len(data) >= 3:
-        if data[0] == 0xEF and data[1] == 0xBB and data[2] == 0xBF:
-            data = data[3:]
-    try:
-        return data.decode("utf-8")
-    except UnicodeDecodeError as e:
-        raise ValueError(f"Invalid UTF-8: {e}")
-
-
-def _normalize_newlines(text: str) -> str:
-    # Convert CRLF and CR to LF
-    text = text.replace("\r\n", "\n")
-    text = text.replace("\r", "\n")
-    # Ensure trailing newline
-    if not text.endswith("\n"):
-        text = text + "\n"
-    return text
 
 
 def _ensure_output_dir(base_dir: Path) -> Path:
@@ -55,8 +35,8 @@ def parse_txt(src_path: Path, base_dir: Path) -> Dict[str, object]:
     base = Path(base_dir)
 
     raw = _read_bytes(p)
-    text = _utf8_decode_remove_bom(raw)
-    text = _normalize_newlines(text)
+    text = utf8_decode_remove_bom(raw)
+    text = normalize_newlines(text)
 
     out_dir = _ensure_output_dir(base)
     out_path = out_dir / p.name
@@ -103,8 +83,8 @@ def parse_md(src_path: Path, base_dir: Path) -> Dict[str, object]:
     base = Path(base_dir)
 
     raw = _read_bytes(p)
-    text = _utf8_decode_remove_bom(raw)
-    text = _normalize_newlines(text)
+    text = utf8_decode_remove_bom(raw)
+    text = normalize_newlines(text)
     text = _strip_md_front_matter(text)
 
     out_dir = _ensure_output_dir(base)

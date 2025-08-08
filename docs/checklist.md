@@ -62,7 +62,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-006.03 Implement src/processing/parsers/txt_md.py with safe filename creation and normalization utilities.
 - [x] TICKET-006.04 Update mapping writer stub to capture original and processed paths (will be finalized in TICKET-012).
 - [x] TICKET-006.05 Run tests; ensure negative case for invalid encoding handled with clear error.
-- [ ] TICKET-006.06 Refactor normalization helpers into src/processing/normalize.py for reuse.
+- [x] TICKET-006.06 Refactor normalization helpers into src/processing/normalize.py for reuse.
 
 #### TICKET-007 — Office Docs Parser (DOCX, PPTX)
 - [ ] TICKET-007.01 Write failing tests in tests/processing/test_office.py for docx paragraph extraction and pptx slide separation markers.
