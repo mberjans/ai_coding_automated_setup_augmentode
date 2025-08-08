@@ -7,7 +7,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 ### Phase 0 — Project Skeleton, Config, Logging, Paths
 
 #### TICKET-001 — Repository Skeleton & Venv Bootstrap
-- [ ] TICKET-001.01 Create tests/test_cli_help.py with a failing test asserting `python -m src.cli --help` exits 0 and prints command list.
+- [x] TICKET-001.01 Create tests/test_cli_help.py with a failing test asserting `python -m src.cli --help` exits 0 and prints command list.
 - [ ] TICKET-001.02 Create tests/test_env_isolation.py asserting a venv marker file exists and global site-packages are not used.
 - [ ] TICKET-001.03 Implement src/cli.py minimal argparse with `--help` and subcommand placeholders (no side effects).
 - [ ] TICKET-001.04 Create project scaffolding: src/__init__.py, pyproject.toml (runtime + test deps), .gitignore, .env.example, logs/.
