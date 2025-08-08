@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/Users/Mark/Software/ai_coding_automated_setup_augmentode/logs/.04f66ba672bee334cb47848db36807180bbfd796-audit.json",
+    "files": [
+        {
+            "date": 1754636447597,
+            "name": "/Users/Mark/Software/ai_coding_automated_setup_augmentode/logs/mcp-puppeteer-2025-08-08.log",
+            "hash": "63c8935f165c28378feea4af54fcccba6849cdbbedd5a91cad589991192fb7b5"
+        }
+    ],
+    "hashType": "sha256"
+}
