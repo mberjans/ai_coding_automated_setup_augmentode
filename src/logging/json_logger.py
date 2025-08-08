@@ -20,11 +20,13 @@ from __future__ import annotations
 import json
 import logging
 import os
+import uuid
 from typing import Callable, Optional
 
 
 _ORIGINAL_FACTORY = logging.getLogRecordFactory()
 _FACTORY_INSTALLED = False
+_RUN_CORRELATION_ID = uuid.uuid4().hex
 
 
 def _starts_with_at(s: str, idx: int, prefix: str) -> bool:
@@ -98,6 +100,7 @@ def _install_factory_once() -> None:
             "level": record.levelname,
             "message": msg,
             "name": record.name,
+            "correlation_id": _RUN_CORRELATION_ID,
         }
         record.msg = json.dumps(payload, ensure_ascii=False)
         record.args = ()
