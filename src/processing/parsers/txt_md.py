@@ -15,7 +15,10 @@ def _utf8_decode_remove_bom(data: bytes) -> str:
     if len(data) >= 3:
         if data[0] == 0xEF and data[1] == 0xBB and data[2] == 0xBF:
             data = data[3:]
-    return data.decode("utf-8")
+    try:
+        return data.decode("utf-8")
+    except UnicodeDecodeError as e:
+        raise ValueError(f"Invalid UTF-8: {e}")
 
 
 def _normalize_newlines(text: str) -> str:
