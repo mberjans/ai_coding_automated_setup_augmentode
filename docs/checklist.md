@@ -25,7 +25,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-002.05 Provide examples/config.example.yaml; update tests to load from fixtures/configs/.
 - [x] TICKET-002.06 Implement src/config/validation.py with explicit value checks (no regex) for weights, attempts, and directories.
 - [x] TICKET-002.07 Run tests; confirm failures turn green; refactor config loader for readability; ensure type hints complete.
-- [ ] TICKET-002.08 Add documentation block in README for configuration keys and environment variables.
+- [x] TICKET-002.08 Add documentation block in README for configuration keys and environment variables.
 
 #### TICKET-003 — Structured Logging & Telemetry Scaffolding
 - [ ] TICKET-003.01 Write failing tests in tests/logging/test_json_logger.py asserting JSON structure, levels, and redaction of API keys.
