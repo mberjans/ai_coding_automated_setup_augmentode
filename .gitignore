@@ -128,3 +128,4 @@ venv.bak/
 
 # Cython debug symbols
 cython_debug/
+venv/
