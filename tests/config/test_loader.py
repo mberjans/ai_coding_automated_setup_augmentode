@@ -55,6 +55,8 @@ logging:
         temp_path = f.name
     
     try:
+        # Provide the expected env var for the test
+        os.environ["ANTHROPIC_API_KEY"] = "dummy-key"
         config = load_config(temp_path)
         
         assert config is not None
@@ -64,6 +66,8 @@ logging:
         assert config.logging.level == "INFO"
     finally:
         os.unlink(temp_path)
+        if "ANTHROPIC_API_KEY" in os.environ:
+            del os.environ["ANTHROPIC_API_KEY"]
 
 
 def test_validation_errors_on_invalid_config():
