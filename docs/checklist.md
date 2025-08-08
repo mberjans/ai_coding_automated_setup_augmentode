@@ -10,7 +10,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-001.01 Create tests/test_cli_help.py with a failing test asserting `python -m src.cli --help` exits 0 and prints command list.
 - [x] TICKET-001.02 Create tests/test_env_isolation.py asserting a venv marker file exists and global site-packages are not used.
 - [x] TICKET-001.03 Implement src/cli.py minimal argparse with `--help` and subcommand placeholders (no side effects).
-- [ ] TICKET-001.04 Create project scaffolding: src/__init__.py, pyproject.toml (runtime + test deps), .gitignore, .env.example, logs/.
+- [x] TICKET-001.04 Create project scaffolding: src/__init__.py, pyproject.toml (runtime + test deps), .gitignore, .env.example, logs/.
 - [ ] TICKET-001.05 Add scripts/venv_create.sh and scripts/venv_activate.sh to create/activate Python venv in .venv/.
 - [ ] TICKET-001.06 Add a venv marker file at .venv/.project_venv and a runtime check in src/__init__.py to warn if not in venv.
 - [ ] TICKET-001.07 Implement basic package entry `python -m src.cli` path and verify module discovery works locally.
