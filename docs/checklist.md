@@ -18,7 +18,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-001.09 Document quickstart in README section: venv creation, activation, run `python -m src.cli --help`.
 
 #### TICKET-002 — Configuration Schema & Loader
-- [ ] TICKET-002.01 Write failing tests in tests/config/test_loader.py for: default config load, custom path load, validation errors, env var secret mapping.
+- [x] TICKET-002.01 Write failing tests in tests/config/test_loader.py for: default config load, custom path load, validation errors, env var secret mapping.
 - [ ] TICKET-002.02 Write tests for edge cases: unknown provider fields are rejected; negative attempts invalid; missing API key env raises friendly error.
 - [ ] TICKET-002.03 Implement src/config/models.py using pydantic for AppConfig, ProviderConfig, GenerationConfig, EvaluationConfig, RateLimits, LoggingConfig.
 - [ ] TICKET-002.04 Implement src/config/loader.py to load YAML from path or default, merge env vars, and validate with models; no secrets in logs.
