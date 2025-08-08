@@ -19,12 +19,12 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 
 #### TICKET-002 — Configuration Schema & Loader
 - [x] TICKET-002.01 Write failing tests in tests/config/test_loader.py for: default config load, custom path load, validation errors, env var secret mapping.
-- [ ] TICKET-002.02 Write tests for edge cases: unknown provider fields are rejected; negative attempts invalid; missing API key env raises friendly error.
-- [ ] TICKET-002.03 Implement src/config/models.py using pydantic for AppConfig, ProviderConfig, GenerationConfig, EvaluationConfig, RateLimits, LoggingConfig.
-- [ ] TICKET-002.04 Implement src/config/loader.py to load YAML from path or default, merge env vars, and validate with models; no secrets in logs.
-- [ ] TICKET-002.05 Provide examples/config.example.yaml; update tests to load from fixtures/configs/.
-- [ ] TICKET-002.06 Implement src/config/validation.py with explicit value checks (no regex) for weights, attempts, and directories.
-- [ ] TICKET-002.07 Run tests; confirm failures turn green; refactor config loader for readability; ensure type hints complete.
+- [x] TICKET-002.02 Write tests for edge cases: unknown provider fields are rejected; negative attempts invalid; missing API key env raises friendly error.
+- [x] TICKET-002.03 Implement src/config/models.py using pydantic for AppConfig, ProviderConfig, GenerationConfig, EvaluationConfig, RateLimits, LoggingConfig.
+- [x] TICKET-002.04 Implement src/config/loader.py to load YAML from path or default, merge env vars, and validate with models; no secrets in logs.
+- [x] TICKET-002.05 Provide examples/config.example.yaml; update tests to load from fixtures/configs/.
+- [x] TICKET-002.06 Implement src/config/validation.py with explicit value checks (no regex) for weights, attempts, and directories.
+- [x] TICKET-002.07 Run tests; confirm failures turn green; refactor config loader for readability; ensure type hints complete.
 - [ ] TICKET-002.08 Add documentation block in README for configuration keys and environment variables.
 
 #### TICKET-003 — Structured Logging & Telemetry Scaffolding

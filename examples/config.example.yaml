@@ -1,0 +1,26 @@
+# Example configuration for the Automated LLM-Based Project Planning system
+# Copy this file to your own config path and adjust values as needed.
+
+providers:
+  anthropic:
+    api_key_env: "ANTHROPIC_API_KEY"  # name of env var holding your API key
+    models:
+      - "claude-3-sonnet-20240229"
+
+generation:
+  temperature: 0.7
+  max_tokens: 2048
+  attempts: 1
+
+evaluation:
+  weights:
+    task_relevance: 0.5
+    documentation_relevance: 0.5
+
+logging:
+  level: "INFO"
+  file_path: "logs/app.log"
+
+rate_limits:
+  requests_per_minute: 60
+  burst: 10

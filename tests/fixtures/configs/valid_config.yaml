@@ -1,0 +1,15 @@
+providers:
+  anthropic:
+    api_key_env: "ANTHROPIC_API_KEY"
+    models:
+      - "claude-3-sonnet-20240229"
+generation:
+  temperature: 0.7
+  max_tokens: 4000
+evaluation:
+  weights:
+    task_relevance: 0.6
+    documentation_relevance: 0.4
+logging:
+  level: "INFO"
+  file_path: "logs/app.log"

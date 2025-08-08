@@ -33,31 +33,14 @@ def test_load_custom_path_config():
     """Test loading configuration from custom path."""
     from src.config.loader import load_config
     
-    # Create temporary config file
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml', delete=False) as f:
-        f.write("""
-providers:
-  anthropic:
-    api_key_env: "ANTHROPIC_API_KEY"
-    models:
-      - "claude-3-sonnet-20240229"
-generation:
-  temperature: 0.7
-  max_tokens: 4000
-evaluation:
-  weights:
-    task_relevance: 0.6
-    documentation_relevance: 0.4
-logging:
-  level: "INFO"
-  file_path: "logs/app.log"
-""")
-        temp_path = f.name
+    # Use fixture config file
+    from pathlib import Path
+    fixture_path = Path(__file__).parent.parent / "fixtures" / "configs" / "valid_config.yaml"
     
     try:
         # Provide the expected env var for the test
         os.environ["ANTHROPIC_API_KEY"] = "dummy-key"
-        config = load_config(temp_path)
+        config = load_config(str(fixture_path))
         
         assert config is not None
         assert config.providers.anthropic.api_key_env == "ANTHROPIC_API_KEY"
@@ -65,7 +48,6 @@ logging:
         assert config.evaluation.weights.task_relevance == 0.6
         assert config.logging.level == "INFO"
     finally:
-        os.unlink(temp_path)
         if "ANTHROPIC_API_KEY" in os.environ:
             del os.environ["ANTHROPIC_API_KEY"]
 
