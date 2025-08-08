@@ -60,3 +60,36 @@ def test_parse_md_bom_removed_and_writes_txt_output(tmp_path: Path):
 
     written = Path(out_path).read_text(encoding="utf-8")
     assert written == text
+
+
+def test_parse_md_strips_front_matter_headings_preserved(tmp_path: Path):
+    from src.processing.parsers import txt_md
+
+    src = tmp_path / "README.md"
+    content = """---\n""" + \
+        "title: Sample Doc\n" + \
+        "tags: [a, b]\n" + \
+        """---\n# Heading\n\nBody text here.\n"""
+    _write_text(src, content)
+
+    out = txt_md.parse_md(src, tmp_path)
+    text = out["text"]
+
+    # Front-matter removed
+    assert "title: Sample Doc" not in text
+    assert "tags: [a, b]" not in text
+    # Heading preserved as first non-front-matter line
+    assert text.startswith("# Heading\n")
+    assert "Body text here." in text
+
+
+def test_parse_md_without_front_matter_keeps_headings(tmp_path: Path):
+    from src.processing.parsers import txt_md
+
+    src = tmp_path / "doc.md"
+    content = "# Title\n\nSome text.\n"
+    _write_text(src, content)
+
+    out = txt_md.parse_md(src, tmp_path)
+    text = out["text"]
+    assert text.startswith("# Title\n")
