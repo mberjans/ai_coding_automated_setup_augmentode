@@ -12,12 +12,6 @@ pytestmark = pytest.mark.asyncio
 
 from src.providers.interface import ProviderError, RateLimitError, TransientError
 
-# Skip this test module if ANTHROPIC_API_KEY is not set
-pytestmark = pytest.mark.skipif(
-    not os.environ.get("ANTHROPIC_API_KEY"),
-    reason="ANTHROPIC_API_KEY environment variable not set"
-)
-
 # Sample configuration for tests
 SAMPLE_CONFIG = {
     "api_key": "test-api-key",
