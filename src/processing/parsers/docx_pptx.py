@@ -5,6 +5,7 @@ from typing import Dict, List
 import zipfile
 
 from ..normalize import normalize_newlines, utf8_decode_remove_bom, remove_control_chars
+from ..io import ensure_output_dir, write_text_file
 from .. import mapping
 
 _HAS_DOCX = False
@@ -24,14 +25,13 @@ except Exception:
     _HAS_PPTX = False
 
 def _ensure_output_dir(base_dir: Path) -> Path:
-    out_dir = base_dir / "processed_documents" / "text"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    return out_dir
+    # Backward-compatible wrapper calling shared I/O helper.
+    return ensure_output_dir(base_dir)
 
 
 def _write_text_file(path: Path, text: str) -> None:
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(text)
+    # Backward-compatible wrapper calling shared I/O helper.
+    write_text_file(path, text)
 
 
 def _extract_all_between(s: str, start: str, end: str) -> List[str]:

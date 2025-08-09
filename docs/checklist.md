@@ -93,10 +93,10 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-010.05 Document OCR configuration options in docs/processing.md.
 
 #### TICKET-011 — Normalization Pipeline
-- [ ] TICKET-011.01 Write failing tests in tests/processing/test_normalize.py for newline policy, whitespace trimming, and safe filename sanitation.
-- [ ] TICKET-011.02 Add tests for simple header/footer stripping using explicit scanning functions (no regex).
-- [ ] TICKET-011.03 Implement src/processing/normalize.py with reusable utilities; ensure deterministic output.
-- [ ] TICKET-011.04 Run tests; confirm normalization applied consistently across parser outputs; refactor as needed.
+- [x] TICKET-011.01 Write failing tests in tests/processing/test_normalize.py for newline policy, whitespace trimming, and safe filename sanitation.
+- [x] TICKET-011.02 Add tests for simple header/footer stripping using explicit scanning functions (no regex).
+- [x] TICKET-011.03 Implement src/processing/normalize.py with reusable utilities; ensure deterministic output.
+- [x] TICKET-011.04 Run tests; confirm normalization applied consistently across parser outputs; refactor as needed.
 
 #### TICKET-012 — Mapping Writer & Pipeline Error Handling
 - [ ] TICKET-012.01 Write failing tests in tests/processing/test_mapping.py for mapping.json schema, checksums, timestamps, and per-file error capture.
