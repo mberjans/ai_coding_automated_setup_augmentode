@@ -1,17 +1,32 @@
 from typing import Any, Dict, List
 
 
+def _truncate_text(text: str, max_length: int = 500) -> str:
+    """Truncate text to max_length, adding ellipsis if truncated."""
+    if len(text) <= max_length:
+        return text
+    return text[:max_length - 3] + "..."
+
+
 def _summaries_block(summaries: List[Dict[str, Any]]) -> str:
     lines: List[str] = []
+    
+    if not summaries:
+        return "No document summaries available.\n"
+        
     lines.append("Processed document summaries (filename: excerpt):")
     i = 0
     while i < len(summaries):
         item = summaries[i]
         name = item.get("filename", "")
         excerpt = item.get("excerpt", "")
-        lines.append(f"- {name}: {excerpt}")
+        
+        # Truncate long excerpts to keep prompts manageable
+        truncated_excerpt = _truncate_text(excerpt, 300)
+        lines.append(f"- {name}: {truncated_excerpt}")
         i = i + 1
-    return "\n".join(lines)
+        
+    return "\n".join(lines) + "\n"
 
 
 def _constraints_block() -> str:
