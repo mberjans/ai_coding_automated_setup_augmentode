@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional, Union, cast
 
 import httpx
 from typing_extensions import TypedDict
+import os
 
 from src.providers.interface import (
     AuthError,
@@ -34,7 +35,8 @@ class AnthropicProvider:
         
         Args:
             config: Configuration dictionary containing:
-                - api_key: Anthropic API key (required)
+                - api_key: Anthropic API key (required unless api_key_env is provided)
+                - api_key_env: Environment variable name containing the API key (optional alternative to api_key)
                 - model: Model name (e.g., "claude-3-opus-20240229") (required)
                 - max_tokens: Maximum number of tokens to generate (default: 4096)
                 - temperature: Sampling temperature (default: 0.7)
@@ -44,8 +46,18 @@ class AnthropicProvider:
                 - timeout: Request timeout in seconds (default: 30.0)
                 - max_retries: Maximum number of retries for failed requests (default: 3)
         """
-        # Required parameters
-        self.api_key = self._get_required_config(config, "api_key")
+        # Resolve API key from direct value or environment variable name
+        api_key_value = config.get("api_key")
+        if not api_key_value:
+            api_key_env = config.get("api_key_env")
+            if api_key_env:
+                if api_key_env in os.environ:
+                    api_key_value = os.environ.get(api_key_env)
+                else:
+                    raise ValueError("api_key_env provided but environment variable is not set")
+            else:
+                raise ValueError("api_key is required in the configuration")
+        self.api_key = api_key_value
         self.model = self._get_required_config(config, "model")
         
         # Optional parameters with defaults
