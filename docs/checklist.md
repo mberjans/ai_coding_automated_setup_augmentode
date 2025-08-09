@@ -41,7 +41,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-004.02 Write tests for formatting provider attempt paths: {Provider}_{Developer}_{Model}/attempt_N/.
 - [x] TICKET-004.03 Write tests for attempt_manifest.json save/load roundtrip including timestamps and parameters.
 - [x] TICKET-004.04 Implement src/paths/manager.py with explicit join helpers (no regex), sanitizing folder names.
-- [ ] TICKET-004.05 Implement src/paths/manifests.py to write/read attempt_manifest.json and run manifest with error-safe writes.
+- [x] TICKET-004.05 Implement src/paths/manifests.py to write/read attempt_manifest.json and run manifest with error-safe writes.
 - [ ] TICKET-004.06 Run tests; ensure directory creation is idempotent; refactor path helpers for clarity.
 - [ ] TICKET-004.07 Add developer doc snippet on directory layout and manifests.
 
