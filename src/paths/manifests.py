@@ -45,3 +45,19 @@ def load_attempt_manifest(manifest_path: str) -> Dict[str, Any]:
     if not isinstance(obj, dict):
         raise ValueError("attempt_manifest must be a JSON object")
     return obj
+
+
+def save_run_manifest(manifest_path: str, data: Dict[str, Any]) -> None:
+    path = Path(manifest_path)
+    text = json.dumps(data, ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+    _write_atomic(path, text)
+
+
+def load_run_manifest(manifest_path: str) -> Dict[str, Any]:
+    path = Path(manifest_path)
+    with path.open("r", encoding="utf-8") as f:
+        text = f.read()
+    obj = json.loads(text)
+    if not isinstance(obj, dict):
+        raise ValueError("run_manifest must be a JSON object")
+    return obj
