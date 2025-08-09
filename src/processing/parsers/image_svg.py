@@ -25,6 +25,9 @@ def parse_image(src_path: Path, base_dir: Path, ocr_fn: Optional[Callable[[bytes
 
     text = normalize_newlines(text)
     text = remove_control_chars(text)
+    # For images, keep exact OCR text semantics without forcing trailing newline
+    if text.endswith("\n"):
+        text = text[:-1]
     # Coerce whitespace-only to empty string for deterministic output
     if len(text.strip()) == 0:
         text = ""
