@@ -111,10 +111,10 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 
 #### TICKET-013 — Provider Interface & Registry
 - [x] TICKET-013.01 Write failing tests in tests/providers/test_interface.py verifying abstract ProviderClient API and error classes.
-- [ ] TICKET-013.02 Add tests for provider registry resolving by provider name from config and rejecting unknown providers.
-- [ ] TICKET-013.03 Implement src/providers/interface.py defining ProviderClient with prepare_prompt and call; define ProviderError hierarchy.
-- [ ] TICKET-013.04 Implement src/providers/registry.py registering provider adapters by name.
-- [ ] TICKET-013.05 Run tests; refactor for clarity; add type hints and docstrings.
+- [x] TICKET-013.02 Add tests for provider registry resolving by provider name from config and rejecting unknown providers.
+- [x] TICKET-013.03 Implement src/providers/interface.py defining ProviderClient with prepare_prompt and call; define ProviderError hierarchy.
+- [x] TICKET-013.04 Implement src/providers/registry.py registering provider adapters by name.
+- [x] TICKET-013.05 Run tests; refactor for clarity; add type hints and docstrings.
 
 #### TICKET-014 — Prompt Generator for plan.md, tickets.md, checklist.md
 - [ ] TICKET-014.01 Write failing tests in tests/prompting/test_prompts.py asserting structure and constraints for plan/tickets/checklist prompts.
