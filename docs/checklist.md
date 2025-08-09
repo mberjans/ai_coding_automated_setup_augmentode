@@ -79,18 +79,18 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-008.05 Refactor delimiter normalization into src/processing/normalize.py.
 
 #### TICKET-009 — PDF Text Extraction with OCR Fallback
-- [ ] TICKET-009.01 Write failing tests in tests/processing/test_pdf.py for text extraction from searchable PDFs and OCR fallback on low-yield PDFs.
-- [ ] TICKET-009.02 Add tests for page-level processing metadata and ocr_used flag behavior.
-- [ ] TICKET-009.03 Implement src/processing/parsers/pdf.py using pdfminer.six/pypdf and pytesseract fallback per page with heuristic threshold.
-- [ ] TICKET-009.04 Run tests; confirm OCR only triggers when coverage below threshold; add negative test for missing Tesseract binary.
-- [ ] TICKET-009.05 Refactor image pre-processing for OCR into src/processing/images.py.
+- [x] TICKET-009.01 Write failing tests in tests/processing/test_pdf.py for text extraction from searchable PDFs and OCR fallback on low-yield PDFs.
+- [x] TICKET-009.02 Add tests for page-level processing metadata and ocr_used flag behavior.
+- [x] TICKET-009.03 Implement src/processing/parsers/pdf.py using pdfminer.six/pypdf and pytesseract fallback per page with heuristic threshold.
+- [x] TICKET-009.04 Run tests; confirm OCR only triggers when coverage below threshold; add negative test for missing Tesseract binary.
+- [x] TICKET-009.05 Refactor image pre-processing for OCR into src/processing/images.py.
 
 #### TICKET-010 — Image OCR (PNG/JPEG) and SVG Extraction
-- [ ] TICKET-010.01 Write failing tests in tests/processing/test_image_svg.py for OCR of png/jpeg with language from config and SVG text node extraction.
-- [ ] TICKET-010.02 Add tests for empty/low-quality images and non-textual SVGs (should produce empty output with no errors).
-- [ ] TICKET-010.03 Implement src/processing/parsers/image_svg.py with pytesseract OCR and XML parsing for SVG <text> elements.
-- [ ] TICKET-010.04 Run tests; validate outputs and error handling for unsupported image formats.
-- [ ] TICKET-010.05 Document OCR configuration options in docs/processing.md.
+- [x] TICKET-010.01 Write failing tests in tests/processing/test_image_svg.py for OCR of png/jpeg with language from config and SVG text node extraction.
+- [x] TICKET-010.02 Add tests for empty/low-quality images and non-textual SVGs (should produce empty output with no errors).
+- [x] TICKET-010.03 Implement src/processing/parsers/image_svg.py with pytesseract OCR and XML parsing for SVG <text> elements.
+- [x] TICKET-010.04 Run tests; validate outputs and error handling for unsupported image formats.
+- [x] TICKET-010.05 Document OCR configuration options in docs/processing.md.
 
 #### TICKET-011 — Normalization Pipeline
 - [ ] TICKET-011.01 Write failing tests in tests/processing/test_normalize.py for newline policy, whitespace trimming, and safe filename sanitation.
