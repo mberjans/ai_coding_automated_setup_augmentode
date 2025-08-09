@@ -162,6 +162,8 @@ class OpenRouterProvider:
                     # Check for errors
                     if response.status_code == 401:
                         raise AuthError("Invalid API key")
+                    elif response.status_code == 403:
+                        raise AuthError("Forbidden")
                     elif response.status_code == 429:
                         retry_after = float(response.headers.get("retry-after", 1.0))
                         if attempt < self.max_retries:

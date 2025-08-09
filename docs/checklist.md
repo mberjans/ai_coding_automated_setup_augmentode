@@ -139,8 +139,8 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 #### TICKET-017 — OpenRouter (OpenAI-Compatible) Adapter
 - [x] TICKET-017.01 Write failing tests in tests/providers/test_openrouter.py for header handling, model selection, and error propagation.
 - [x] TICKET-017.02 Implement src/providers/openrouter.py adapter calling OpenRouter chat/completions with configured headers and model.
-- [ ] TICKET-017.03 Run tests; confirm artifact writing via Attempt Runner; refactor shared HTTP utilities.
-- [ ] TICKET-017.04 Add negative tests for 401/403; ensure key isolation and redaction in logs.
+- [x] TICKET-017.03 Run tests; confirm artifact writing via Attempt Runner; refactor shared HTTP utilities.
+- [x] TICKET-017.04 Add negative tests for 401/403; ensure key isolation and redaction in logs.
 
 
 
