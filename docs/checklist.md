@@ -117,7 +117,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-013.05 Run tests; refactor for clarity; add type hints and docstrings.
 
 #### TICKET-014 — Prompt Generator for plan.md, tickets.md, checklist.md
-- [ ] TICKET-014.01 Write failing tests in tests/prompting/test_prompts.py asserting structure and constraints for plan/tickets/checklist prompts.
+- [x] TICKET-014.01 Write failing tests in tests/prompting/test_prompts.py asserting structure and constraints for plan/tickets/checklist prompts.
 - [ ] TICKET-014.02 Add tests that processed document summaries with filename citations are included and length-bounded.
 - [ ] TICKET-014.03 Implement src/prompting/generator.py producing PromptBundle with three prompts; include grounding and formatting constraints.
 - [ ] TICKET-014.04 Implement src/prompting/summarizer.py to create short excerpts from processed_documents/text.
