@@ -99,18 +99,18 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-011.04 Run tests; confirm normalization applied consistently across parser outputs; refactor as needed.
 
 #### TICKET-012 — Mapping Writer & Pipeline Error Handling
-- [ ] TICKET-012.01 Write failing tests in tests/processing/test_mapping.py for mapping.json schema, checksums, timestamps, and per-file error capture.
-- [ ] TICKET-012.02 Add tests for pipeline continuation on individual file failures; skipped/failed entries recorded.
-- [ ] TICKET-012.03 Implement src/processing/mapping.py to write processed_documents/mapping.json; provide append/update behavior.
-- [ ] TICKET-012.04 Implement src/processing/pipeline.py orchestrating detection → parse → normalize → write output and mapping entry.
-- [ ] TICKET-012.05 Run tests; validate mapping correctness; refactor error taxonomy integration.
+- [x] TICKET-012.01 Write failing tests in tests/processing/test_mapping.py for mapping.json schema, checksums, timestamps, and per-file error capture.
+- [x] TICKET-012.02 Add tests for pipeline continuation on individual file failures; skipped/failed entries recorded.
+- [x] TICKET-012.03 Implement src/processing/mapping.py to write processed_documents/mapping.json; provide append/update behavior.
+- [x] TICKET-012.04 Implement src/processing/pipeline.py orchestrating detection → parse → normalize → write output and mapping entry.
+- [x] TICKET-012.05 Run tests; validate mapping correctness; refactor error taxonomy integration.
 
 ---
 
 ### Phase 2 — Provider Abstraction, Prompts, Attempt Runner, Adapters
 
 #### TICKET-013 — Provider Interface & Registry
-- [ ] TICKET-013.01 Write failing tests in tests/providers/test_interface.py verifying abstract ProviderClient API and error classes.
+- [x] TICKET-013.01 Write failing tests in tests/providers/test_interface.py verifying abstract ProviderClient API and error classes.
 - [ ] TICKET-013.02 Add tests for provider registry resolving by provider name from config and rejecting unknown providers.
 - [ ] TICKET-013.03 Implement src/providers/interface.py defining ProviderClient with prepare_prompt and call; define ProviderError hierarchy.
 - [ ] TICKET-013.04 Implement src/providers/registry.py registering provider adapters by name.
