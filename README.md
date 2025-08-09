@@ -63,3 +63,7 @@ This project intentionally avoids object-oriented patterns and list comprehensio
 
 Structured JSON logging is provided by the project.
 See `docs/logging.md` for usage, redaction behavior, correlation ID, and handler setup.
+
+## Paths & Manifests
+
+Directory layout, attempt directories, and manifest helpers are documented in `docs/paths.md`.
