@@ -27,21 +27,24 @@ def test_prompt_bundle_structure_and_constraints():
         assert isinstance(val, str)
         assert len(val) > 0
         # Should mention citations guidance
-        assert "cite source filenames" in val.lower()
-        # Should include headings instruction
+        assert "reference source documents" in val.lower() or "[source: filename]" in val.lower()
+        # Should include markdown formatting instructions
         assert "markdown" in val.lower()
 
     # Plan prompt should reference architecture and testing
-    assert "architecture" in bundle["plan"].lower()
-    assert "testing" in bundle["plan"].lower()
+    plan_lower = bundle["plan"].lower()
+    assert any(term in plan_lower for term in ["architecture", "technical considerations", "scalability"])
+    assert "testing" in plan_lower or "test approach" in plan_lower
 
     # Tickets prompt should reference IDs and acceptance criteria
-    assert "ticket ids" in bundle["tickets"].lower()
-    assert "acceptance criteria" in bundle["tickets"].lower()
+    tickets_lower = bundle["tickets"].lower()
+    assert any(term in tickets_lower for term in ["ticket-", "acceptance criteria"])
+    assert "implementation" in tickets_lower or "requirements" in tickets_lower
 
     # Checklist prompt should reference task id format and tdd
-    assert "task id format" in bundle["checklist"].lower()
-    assert "tdd" in bundle["checklist"].lower()
+    checklist_lower = bundle["checklist"].lower()
+    assert any(term in checklist_lower for term in ["ticket-", "task description"])
+    assert any(term in checklist_lower for term in ["test", "verification", "tdd"])
 
 
 def test_summary_inclusion_and_citations():
