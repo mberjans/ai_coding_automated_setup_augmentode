@@ -34,10 +34,10 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-003.04 Implement src/logging/handlers.py configuring file and console handlers; ensure per-run correlation ID.
 - [x] TICKET-003.05 Wire logger into src/cli.py for `--verbose` flag support.
 - [x] TICKET-003.06 Run tests; verify redaction works for strings containing patterns like "key=" and environment variable names.
-- [ ] TICKET-003.07 Refactor logging setup for minimal global state; document logging usage in docs/.
+- [x] TICKET-003.07 Refactor logging setup for minimal global state; document logging usage in docs/.
 
 #### TICKET-004 — Path/Directory Manager & Manifests
-- [ ] TICKET-004.01 Write failing tests in tests/paths/test_manager.py for ensuring processed_documents/text, COMBINED_RESULTS/, logs/ are created if missing.
+- [x] TICKET-004.01 Write failing tests in tests/paths/test_manager.py for ensuring processed_documents/text, COMBINED_RESULTS/, logs/ are created if missing.
 - [ ] TICKET-004.02 Write tests for formatting provider attempt paths: {Provider}_{Developer}_{Model}/attempt_N/.
 - [ ] TICKET-004.03 Write tests for attempt_manifest.json save/load roundtrip including timestamps and parameters.
 - [ ] TICKET-004.04 Implement src/paths/manager.py with explicit join helpers (no regex), sanitizing folder names.
