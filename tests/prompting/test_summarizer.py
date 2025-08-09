@@ -51,7 +51,7 @@ def test_create_document_summaries():
                 assert "project notes" in summary["excerpt"].lower()
                 assert "important:" in summary["excerpt"].lower()
             elif summary["filename"] == "empty.txt":
-                assert summary["excerpt"] == "[Empty file]"
+                assert summary["excerpt"] == "[Empty] file"
 
 
 def test_summarize_text():

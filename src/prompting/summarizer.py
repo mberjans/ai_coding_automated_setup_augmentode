@@ -1,6 +1,47 @@
-from typing import List, Dict, Any, Optional
-import os
+from dataclasses import dataclass
 from pathlib import Path
+from typing import List, Dict, Any, Optional, Iterable, Tuple
+import os
+
+# Constants
+ELLIPSIS = '...'
+EMPTY_PLACEHOLDER = "[Empty]"
+FILE_NOT_FOUND_PREFIX = "[File not found: "
+ERROR_READING_PREFIX = "[Error reading "
+
+
+@dataclass
+class DocumentSummary:
+    """Data class to hold document summary information."""
+    filename: str
+    excerpt: str
+
+
+def is_sentence_ender(char: str) -> bool:
+    """Check if a character typically ends a sentence."""
+    return char in {'.', '!', '?'}
+
+
+def find_sentence_end(text: str, start_pos: int) -> int:
+    """Find the end position of a sentence starting at start_pos."""
+    text_length = len(text)
+    if start_pos >= text_length:
+        return text_length
+
+    i = start_pos
+    while i < text_length:
+        if is_sentence_ender(text[i]):
+            # Look ahead for end of sentence
+            j = i + 1
+            while j < text_length and text[j].isspace():
+                j += 1
+            
+            # If we've reached the end or found a capital letter, it's likely a sentence end
+            if j >= text_length or text[j].isupper():
+                return j
+        i += 1
+    
+    return text_length
 
 
 def extract_key_sentences(text: str, num_sentences: int = 3) -> List[str]:
@@ -15,42 +56,33 @@ def extract_key_sentences(text: str, num_sentences: int = 3) -> List[str]:
     """
     if not text.strip():
         return []
-        
-    # Split into sentences (simple approach - split on periods followed by space or newline)
+    
     sentences = []
-    current = []
-    i = 0
+    pos = 0
     text_length = len(text)
     
-    while i < text_length:
-        char = text[i]
-        current.append(char)
-        
-        # Check for sentence end
-        if char in {'.', '!', '?'}:
-            # Look ahead for end of sentence
-            j = i + 1
-            while j < text_length and text[j].isspace():
-                current.append(text[j])
-                j += 1
-                
-            # If we've reached the end or found a capital letter, it's likely a sentence end
-            if j >= text_length or (j < text_length and text[j].isupper()):
-                sentence = ''.join(current).strip()
-                if sentence:
-                    sentences.append(sentence)
-                current = []
-                
-        i += 1
+    while pos < text_length and len(sentences) < num_sentences:
+        end_pos = find_sentence_end(text, pos)
+        if end_pos > pos:  # Found a sentence
+            sentence = text[pos:end_pos].strip()
+            if sentence:
+                sentences.append(sentence)
+        pos = end_pos + 1
     
-    # Add any remaining text
-    if current:
-        sentence = ''.join(current).strip()
-        if sentence:
-            sentences.append(sentence)
+    return sentences
+
+
+def truncate_to_word_boundary(text: str, max_length: int) -> str:
+    """Truncate text to the nearest word boundary before max_length."""
+    if len(text) <= max_length:
+        return text
     
-    # Return first few sentences as summary
-    return sentences[:num_sentences]
+    truncated = text[:max_length]
+    last_space = truncated.rfind(' ')
+    
+    if last_space > 0:
+        return truncated[:last_space].rstrip(' .,!?')
+    return truncated.rstrip(' .,!?')
 
 
 def summarize_text(text: str, max_length: int = 200) -> str:
@@ -64,36 +96,17 @@ def summarize_text(text: str, max_length: int = 200) -> str:
         Summarized text
     """
     if not text.strip():
-        return "[Empty]"
+        return EMPTY_PLACEHOLDER
     
-    # Remove leading/trailing whitespace
     text = text.strip()
-    
-    # If text is already short enough, return as is
     if len(text) <= max_length:
         return text
     
-    # Reserve space for ellipsis if needed
-    effective_max = max_length - 3  # Account for '...'
-    if effective_max < 1:
-        return "..."
+    if max_length <= 3:  # Only room for ellipsis
+        return ELLIPSIS
     
-    # Find the last space before effective_max to avoid cutting words
-    truncated = text[:effective_max]
-    last_space = truncated.rfind(' ')
-    
-    # If we found a space, use it; otherwise, just truncate at max_length
-    if last_space > 0:
-        truncated = truncated[:last_space]
-    
-    # Add ellipsis
-    truncated = truncated.rstrip(' .,!?') + '...'
-    
-    # Final check to ensure we didn't exceed max_length
-    if len(truncated) > max_length:
-        truncated = truncated[:max_length-3] + '...'
-    
-    return truncated
+    truncated = truncate_to_word_boundary(text, max_length - len(ELLIPSIS))
+    return f"{truncated}{ELLIPSIS}"
 
 
 def read_file_content(filepath: str) -> str:
@@ -103,25 +116,39 @@ def read_file_content(filepath: str) -> str:
         filepath: Path to the file
         
     Returns:
-        File content as string
+        File content as string with error handling
     """
     try:
         path = Path(filepath)
         if not path.is_file():
-            return f"[File not found: {filepath}]"
-            
+            return f"{FILE_NOT_FOUND_PREFIX}{filepath}]"
+        
         content = path.read_text(encoding='utf-8', errors='replace').strip()
-        return content if content else "[Empty file]"
+        return content if content else f"{EMPTY_PLACEHOLDER} file"
         
     except Exception as e:
-        return f"[Error reading {filepath}: {str(e)}]"
+        return f"{ERROR_READING_PREFIX}{filepath}: {str(e)}]"
 
 
-def create_document_summaries(filepaths: List[str]) -> List[Dict[str, str]]:
+def create_markdown_summary(content: str) -> str:
+    """Create a summary for markdown content."""
+    lines = [line for line in content.split('\n') if line.strip()]
+    return '\n'.join(lines[:5])  # First 5 non-empty lines
+
+
+def create_generic_summary(content: str) -> str:
+    """Create a summary for generic text content."""
+    excerpt = ' '.join(extract_key_sentences(content, 2))
+    if not excerpt.strip():
+        excerpt = summarize_text(content, 200)
+    return excerpt
+
+
+def create_document_summaries(filepaths: Iterable[str]) -> List[Dict[str, str]]:
     """Create summaries for multiple document files.
     
     Args:
-        filepaths: List of file paths to process
+        filepaths: Iterable of file paths to process
         
     Returns:
         List of dictionaries with 'filename' and 'excerpt' keys
@@ -135,24 +162,12 @@ def create_document_summaries(filepaths: List[str]) -> List[Dict[str, str]]:
         filename = os.path.basename(filepath)
         content = read_file_content(filepath)
         
-        # For markdown files, try to preserve structure
         if filename.lower().endswith(('.md', '.markdown')):
-            # Take first few lines that aren't just whitespace
-            lines = [line for line in content.split('\n') if line.strip()]
-            excerpt = '\n'.join(lines[:5])  # First 5 non-empty lines
+            excerpt = create_markdown_summary(content)
         else:
-            # For other files, take first meaningful sentences
-            excerpt = ' '.join(extract_key_sentences(content, 2))
-            
-            # If we didn't get good sentences, fall back to first part of content
-            if not excerpt.strip():
-                excerpt = content[:200].strip()
-                if len(content) > 200:
-                    excerpt += '...'
+            excerpt = create_generic_summary(content)
         
-        summaries.append({
-            'filename': filename,
-            'excerpt': excerpt
-        })
+        summaries.append(DocumentSummary(filename=filename, excerpt=excerpt))
     
-    return summaries
+    # Convert to list of dicts for backward compatibility
+    return [{"filename": s.filename, "excerpt": s.excerpt} for s in summaries]
