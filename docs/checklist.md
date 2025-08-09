@@ -38,7 +38,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 
 #### TICKET-004 — Path/Directory Manager & Manifests
 - [x] TICKET-004.01 Write failing tests in tests/paths/test_manager.py for ensuring processed_documents/text, COMBINED_RESULTS/, logs/ are created if missing.
-- [ ] TICKET-004.02 Write tests for formatting provider attempt paths: {Provider}_{Developer}_{Model}/attempt_N/.
+- [x] TICKET-004.02 Write tests for formatting provider attempt paths: {Provider}_{Developer}_{Model}/attempt_N/.
 - [ ] TICKET-004.03 Write tests for attempt_manifest.json save/load roundtrip including timestamps and parameters.
 - [ ] TICKET-004.04 Implement src/paths/manager.py with explicit join helpers (no regex), sanitizing folder names.
 - [ ] TICKET-004.05 Implement src/paths/manifests.py to write/read attempt_manifest.json and run manifest with error-safe writes.
