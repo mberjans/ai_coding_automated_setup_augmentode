@@ -124,11 +124,11 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-014.05 Run tests; adjust templates for determinism; refactor summarizer for readability.
 
 #### TICKET-015 — Attempt Runner & Directory Management
-- [ ] TICKET-015.01 Write failing tests in tests/attempts/test_runner.py to create attempt directories and persist prompts and outputs.
-- [ ] TICKET-015.02 Add tests for attempt_manifest.json capturing parameters, seed, tokens, and errors.
-- [ ] TICKET-015.03 Implement src/attempts/runner.py orchestrating per-provider attempts; write artifacts to {Provider}_{Developer}_{Model}/attempt_N/.
-- [ ] TICKET-015.04 Implement src/attempts/artifacts.py helpers to write plan.md, tickets.md, checklist.md, and raw responses.
-- [ ] TICKET-015.05 Run tests; validate idempotency for repeated attempt numbers; refactor path usage.
+- [x] TICKET-015.01 Write failing tests in tests/attempts/test_runner.py to create attempt directories and persist prompts and outputs.
+- [x] TICKET-015.02 Add tests for attempt_manifest.json capturing parameters, seed, tokens, and errors.
+- [x] TICKET-015.03 Implement src/attempts/runner.py orchestrating per-provider attempts; write artifacts to {Provider}_{Developer}_{Model}/attempt_N/.
+- [x] TICKET-015.04 Implement src/attempts/artifacts.py helpers to write plan.md, tickets.md, checklist.md, and raw responses.
+- [x] TICKET-015.05 Run tests; validate idempotency for repeated attempt numbers; refactor path usage.
 
 #### TICKET-016 — Anthropic Provider Adapter
 - [ ] TICKET-016.01 Write failing tests in tests/providers/test_anthropic.py mocking httpx calls, retries on 429/5xx, and parameter mapping.
@@ -137,8 +137,8 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [ ] TICKET-016.04 Add negative tests for missing/invalid API key and timeouts; refactor retry policy placement.
 
 #### TICKET-017 — OpenRouter (OpenAI-Compatible) Adapter
-- [ ] TICKET-017.01 Write failing tests in tests/providers/test_openrouter.py for header handling, model selection, and error propagation.
-- [ ] TICKET-017.02 Implement src/providers/openrouter.py adapter calling OpenRouter chat/completions with configured headers and model.
+- [x] TICKET-017.01 Write failing tests in tests/providers/test_openrouter.py for header handling, model selection, and error propagation.
+- [x] TICKET-017.02 Implement src/providers/openrouter.py adapter calling OpenRouter chat/completions with configured headers and model.
 - [ ] TICKET-017.03 Run tests; confirm artifact writing via Attempt Runner; refactor shared HTTP utilities.
 - [ ] TICKET-017.04 Add negative tests for 401/403; ensure key isolation and redaction in logs.
 
