@@ -76,6 +76,31 @@ def _sanitize_segment(seg: str) -> str:
     return out
 
 
+def sanitize_folder_name(name: str) -> str:
+    """Public wrapper to sanitize a single folder segment.
+
+    Keeps alphanumerics, dash, underscore, dot; replaces others with '_'.
+    """
+    return _sanitize_segment(name)
+
+
+def join_paths(base: str, s1: str = "", s2: str = "", s3: str = "", s4: str = "") -> str:
+    """Join up to five segments explicitly without list comprehensions.
+
+    Empty segments are ignored.
+    """
+    p = Path(base)
+    if s1:
+        p = _join(p, s1)
+    if s2:
+        p = _join(p, s2)
+    if s3:
+        p = _join(p, s3)
+    if s4:
+        p = _join(p, s4)
+    return str(p)
+
+
 def _combine_provider_developer_model(provider: str, developer: str, model: str) -> str:
     # Create {Provider}_{Developer}_{Model} with sanitization
     p = _sanitize_segment(provider)
