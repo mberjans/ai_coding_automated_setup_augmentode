@@ -67,16 +67,16 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 #### TICKET-007 — Office Docs Parser (DOCX, PPTX)
 - [x] TICKET-007.01 Write failing tests in tests/processing/test_office.py for docx paragraph extraction and pptx slide separation markers.
 - [x] TICKET-007.02 Add tests for control character removal and newline normalization.
-- [ ] TICKET-007.03 Implement src/processing/parsers/docx_pptx.py using python-docx and python-pptx; expose parse_docx and parse_pptx.
-- [ ] TICKET-007.04 Run tests; validate counts of paragraphs/slides recorded for mapping later.
-- [ ] TICKET-007.05 Refactor shared IO into src/processing/io.py to avoid duplication.
+- [x] TICKET-007.03 Implement src/processing/parsers/docx_pptx.py using python-docx and python-pptx; expose parse_docx and parse_pptx.
+- [x] TICKET-007.04 Run tests; validate counts of paragraphs/slides recorded for mapping later.
+- [x] TICKET-007.05 Refactor shared IO into src/processing/io.py to avoid duplication.
 
 #### TICKET-008 — Spreadsheet & Tabular Parser (XLSX, CSV, TSV)
-- [ ] TICKET-008.01 Write failing tests in tests/processing/test_tabular.py for xlsx sheet export to TSV-like text; csv/tsv normalization to tabs.
-- [ ] TICKET-008.02 Add tests for header handling, empty cells, and special characters.
-- [ ] TICKET-008.03 Implement src/processing/parsers/tabular.py using openpyxl and csv module; add sheet separators.
-- [ ] TICKET-008.04 Run tests; verify sheet names and row counts are captured for mapping later.
-- [ ] TICKET-008.05 Refactor delimiter normalization into src/processing/normalize.py.
+- [x] TICKET-008.01 Write failing tests in tests/processing/test_tabular.py for xlsx sheet export to TSV-like text; csv/tsv normalization to tabs.
+- [x] TICKET-008.02 Add tests for header handling, empty cells, and special characters.
+- [x] TICKET-008.03 Implement src/processing/parsers/tabular.py using openpyxl and csv module; add sheet separators.
+- [x] TICKET-008.04 Run tests; verify sheet names and row counts are captured for mapping later.
+- [x] TICKET-008.05 Refactor delimiter normalization into src/processing/normalize.py.
 
 #### TICKET-009 — PDF Text Extraction with OCR Fallback
 - [ ] TICKET-009.01 Write failing tests in tests/processing/test_pdf.py for text extraction from searchable PDFs and OCR fallback on low-yield PDFs.
