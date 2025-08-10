@@ -162,24 +162,24 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 ### Phase 4 — Combination Engine
 
 #### TICKET-020 — Combination Strategy Engine
-- [ ] TICKET-020.01 Write failing tests in tests/combination/test_engine.py ensuring combined plan/tickets/checklist are produced and cite sources.
-- [ ] TICKET-020.02 Add tests for change proposals identification and acceptance criteria retention.
-- [ ] TICKET-020.03 Implement src/combination/engine.py to compare baseline vs. others, draft improvements via LLM, and write combined docs.
-- [ ] TICKET-020.04 Implement src/combination/trace.py to record citations and rationale per section.
-- [ ] TICKET-020.05 Run tests; validate combined outputs exist and metadata contains rationale.
+- [x] TICKET-020.01 Write failing tests in tests/combination/test_engine.py ensuring combined plan/tickets/checklist are produced and cite sources.
+- [x] TICKET-020.02 Add tests for change proposals identification and acceptance criteria retention.
+- [x] TICKET-020.03 Implement src/combination/engine.py to compare baseline vs. others, draft improvements via LLM, and write combined docs.
+- [x] TICKET-020.04 Implement src/combination/trace.py to record citations and rationale per section.
+- [x] TICKET-020.05 Run tests; validate combined outputs exist and metadata contains rationale.
 
 #### TICKET-021 — ID Normalization & Conflict Resolution
-- [ ] TICKET-021.01 Write failing tests in tests/combination/test_ids.py for detecting duplicate ticket/checklist IDs across attempts.
-- [ ] TICKET-021.02 Add tests for deterministic remapping strategy and metadata recording of mappings.
-- [ ] TICKET-021.03 Implement src/combination/ids.py to normalize IDs and resolve collisions without regex; use explicit parsing helpers.
-- [ ] TICKET-021.04 Run tests; confirm no duplicate IDs remain; refactor mapping for clarity.
+- [x] TICKET-021.01 Write failing tests in tests/combination/test_ids.py for detecting duplicate ticket/checklist IDs across attempts.
+- [x] TICKET-021.02 Add tests for deterministic remapping strategy and metadata recording of mappings.
+- [x] TICKET-021.03 Implement src/combination/ids.py to normalize IDs and resolve collisions without regex; use explicit parsing helpers.
+- [x] TICKET-021.04 Run tests; confirm no duplicate IDs remain; refactor mapping for clarity.
 
 ---
 
 ### Phase 5 — CLI, Progress, Rate Limiting, Error Recovery, Reproducibility
 
 #### TICKET-022 — CLI Commands & UX
-- [ ] TICKET-022.01 Write failing tests in tests/cli/test_commands.py for subcommands run, process-docs, generate, evaluate, combine.
+- [x] TICKET-022.01 Write failing tests in tests/cli/test_commands.py for subcommands run, process-docs, generate, evaluate, combine.
 - [ ] TICKET-022.02 Add tests ensuring progress bars display expected stages and a final summary report is printed.
 - [ ] TICKET-022.03 Implement src/cli.py subcommands wiring: run → full pipeline; others → respective modules.
 - [ ] TICKET-022.04 Implement src/cli/progress.py using rich to display progress and stage timing.
