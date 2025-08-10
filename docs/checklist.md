@@ -132,7 +132,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 
 #### TICKET-016 — Anthropic Provider Adapter
 - [x] TICKET-016.01 Write failing tests in tests/providers/test_anthropic.py mocking httpx calls, retries on 429/5xx, and parameter mapping.
-- [ ] TICKET-016.02 Implement src/providers/anthropic.py adapter with async httpx, reading API key from env; respect temperature/top_p/seed where supported.
+- [x] TICKET-016.02 Implement src/providers/anthropic.py adapter with async httpx, reading API key from env; respect temperature/top_p/seed where supported.
 - [x] TICKET-016.03 Run tests; verify errors surface as ProviderError and recorded in attempt_manifest.json.
 - [x] TICKET-016.04 Add negative tests for missing/invalid API key and timeouts; refactor retry policy placement.
 
