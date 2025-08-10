@@ -147,15 +147,15 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 #### TICKET-018 — LLM-as-Judge Engine & Rubric
 - [x] TICKET-018.01 Write failing tests in tests/evaluation/test_judge.py for producing task_relevance and documentation_relevance in [0.0,1.0] with rationale.
 - [x] TICKET-018.02 Add tests for weight configuration reading from config and default equality.
-- [ ] TICKET-018.03 Implement src/evaluation/judge.py using ProviderClient or a dedicated judge adapter to score attempts.
-- [ ] TICKET-018.04 Implement src/evaluation/schemas.py for evaluation.json schema and validation helpers.
-- [ ] TICKET-018.05 Run tests; verify deterministic outputs under fixed seed; refactor prompts if necessary.
+- [x] TICKET-018.03 Implement src/evaluation/judge.py using ProviderClient or a dedicated judge adapter to score attempts.
+- [x] TICKET-018.04 Implement src/evaluation/schemas.py for evaluation.json schema and validation helpers.
+- [x] TICKET-018.05 Run tests; verify deterministic outputs under fixed seed; refactor prompts if necessary.
 
 #### TICKET-019 — Ranking & Metadata Outputs
-- [ ] TICKET-019.01 Write failing tests in tests/evaluation/test_ranking.py for weighted average calculation and tie-breakers.
-- [ ] TICKET-019.02 Add tests for COMBINED_RESULTS/metadata.json contents including baseline path and weights.
-- [ ] TICKET-019.03 Implement src/evaluation/ranking.py to compute scores and pick baseline; persist metadata.json.
-- [ ] TICKET-019.04 Run tests; verify deterministic ranking with given inputs; refactor tie-breaker logic.
+- [x] TICKET-019.01 Write failing tests in tests/evaluation/test_ranking.py for weighted average calculation and tie-breakers.
+- [x] TICKET-019.02 Add tests for COMBINED_RESULTS/metadata.json contents including baseline path and weights.
+- [x] TICKET-019.03 Implement src/evaluation/ranking.py to compute scores and pick baseline; persist metadata.json.
+- [x] TICKET-019.04 Run tests; verify deterministic ranking with given inputs; refactor tie-breaker logic.
 
 ---
 
