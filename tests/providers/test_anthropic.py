@@ -563,3 +563,53 @@ def test_anthropic_provider_serialization():
     assert new_provider.stop_sequences == provider.stop_sequences
     assert new_provider.timeout == provider.timeout
     assert new_provider.max_retries == provider.max_retries
+
+
+@pytest.mark.asyncio
+def test_anthropic_provider_api_key_from_env(monkeypatch):
+    """Provider should read API key from environment when api_key_env is provided."""
+    from src.providers.implementations.anthropic import AnthropicProvider
+    monkeypatch.setenv("ANTHROPIC_TEST_KEY", "env-secret")
+    p = AnthropicProvider({
+        "api_key_env": "ANTHROPIC_TEST_KEY",
+        "model": "claude-3-opus-20240229"
+    })
+    assert p.api_key == "env-secret"
+
+
+def test_anthropic_provider_api_key_env_missing_raises():
+    """If api_key_env is provided but not set, initialization should raise ValueError."""
+    from src.providers.implementations.anthropic import AnthropicProvider
+    with pytest.raises(ValueError, match="api_key_env provided but environment variable is not set"):
+        AnthropicProvider({
+            "api_key_env": "SOME_MISSING_ENV_VAR",
+            "model": "claude-3-opus-20240229"
+        })
+
+
+@pytest.mark.asyncio
+@patch('asyncio.sleep')
+@patch('httpx.AsyncClient')
+async def test_anthropic_provider_timeout_retry(mock_client_class, mock_sleep):
+    """Timeouts should be treated as transient errors with retries, then raise TransientError."""
+    from src.providers.implementations.anthropic import AnthropicProvider
+    # Mock client that always times out
+    mock_client = AsyncMock()
+    mock_client.request = AsyncMock(side_effect=httpx.ReadTimeout("read timeout"))
+    mock_client.__aenter__.return_value = mock_client
+    mock_client.__aexit__.return_value = None
+    mock_client_class.return_value = mock_client
+    
+    provider = AnthropicProvider({
+        **SAMPLE_CONFIG,
+        "max_retries": 1
+    })
+    prepared_prompt = json.dumps({
+        "prompt": "Test",
+        "messages": [{"role": "user", "content": "Test"}],
+        "system": "Sys"
+    })
+    with pytest.raises(TransientError, match="Request failed after 2 attempts"):
+        await provider.call(prepared_prompt)
+    assert mock_client.request.await_count == 2
+    assert mock_sleep.await_count == 1
