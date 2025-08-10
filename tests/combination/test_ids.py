@@ -134,3 +134,94 @@ def test_index_structure_contains_both_tickets_and_checklist():
         # Values are dicts of id -> list of occurrences
         assert isinstance(index["tickets"], dict)
         assert isinstance(index["checklist"], dict)
+
+
+def test_proposes_deterministic_remap_for_ticket_duplicates():
+    # When duplicate ticket IDs exist across attempts, propose a deterministic remap
+    # keeping the first occurrence as-is and renaming subsequent occurrences.
+    with tempfile.TemporaryDirectory() as tmp:
+        a1 = _attempt(
+            tmp,
+            "Attempt_A",
+            tickets_text=(
+                "# Tickets\n\n"
+                "- TICKET-700: Foo\n"
+            ),
+            checklist_text=("# Checklist\n\n"),
+        )
+        a2 = _attempt(
+            tmp,
+            "Attempt_B",
+            tickets_text=(
+                "# Tickets\n\n"
+                "- TICKET-700: Bar\n"
+            ),
+            checklist_text=("# Checklist\n\n"),
+        )
+
+        attempts = [a1, a2]
+        index = idmod.build_id_index(attempts)
+        dupes = idmod.find_duplicates(index)
+        remap = idmod.propose_remap(dupes)
+
+        assert isinstance(remap, dict)
+        assert "tickets" in remap
+        # First occurrence keeps original; second must be proposed to a new ID
+        # Verify mapping structure is per original id -> list of {attempt, new_id}
+        mapping_for_id = remap["tickets"].get("TICKET-700")
+        assert isinstance(mapping_for_id, list)
+        assert len(mapping_for_id) >= 1
+        # Ensure the Attempt_B occurrence receives a new id, deterministic suffix
+        found = False
+        i = 0
+        while i < len(mapping_for_id):
+            entry = mapping_for_id[i]
+            if entry.get("attempt") == a2:
+                new_id = entry.get("new_id")
+                assert isinstance(new_id, str)
+                assert new_id != "TICKET-700"
+                found = True
+            i = i + 1
+        assert found
+
+
+def test_proposes_deterministic_remap_for_checklist_duplicates():
+    with tempfile.TemporaryDirectory() as tmp:
+        a1 = _attempt(
+            tmp,
+            "Attempt_A",
+            tickets_text=("# Tickets\n\n- TICKET-800: X\n"),
+            checklist_text=(
+                "# Checklist\n\n"
+                "- [ ] TICKET-800.01 Task A\n"
+            ),
+        )
+        a2 = _attempt(
+            tmp,
+            "Attempt_B",
+            tickets_text=("# Tickets\n\n- TICKET-900: Y\n"),
+            checklist_text=(
+                "# Checklist\n\n"
+                "- [ ] TICKET-800.01 Duplicate Task\n"
+            ),
+        )
+
+        index = idmod.build_id_index([a1, a2])
+        dupes = idmod.find_duplicates(index)
+        remap = idmod.propose_remap(dupes)
+
+        assert "checklist" in remap
+        mapping_for_id = remap["checklist"].get("TICKET-800.01")
+        assert isinstance(mapping_for_id, list)
+        # Second occurrence must be renamed
+        renamed = False
+        i = 0
+        while i < len(mapping_for_id):
+            entry = mapping_for_id[i]
+            if entry.get("attempt") == a2:
+                nid = entry.get("new_id")
+                assert isinstance(nid, str)
+                assert nid != "TICKET-800.01"
+                renamed = True
+            i = i + 1
+        assert renamed
