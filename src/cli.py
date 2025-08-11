@@ -27,6 +27,31 @@ def build_parser():
     return parser
 
 
+def _cmd_run(logger):
+    logger.info("run selected")
+    return 0
+
+
+def _cmd_process_docs(logger):
+    logger.info("process-docs selected")
+    return 0
+
+
+def _cmd_generate(logger):
+    logger.info("generate selected")
+    return 0
+
+
+def _cmd_evaluate(logger):
+    logger.info("evaluate selected")
+    return 0
+
+
+def _cmd_combine(logger):
+    logger.info("combine selected")
+    return 0
+
+
 def main(argv=None):
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -44,7 +69,22 @@ def main(argv=None):
 
     if args.command is None:
         # No action for now; just parse arguments.
-        pass
+        return 0
+
+    if args.command == "run":
+        return _cmd_run(logger)
+    if args.command == "process-docs":
+        return _cmd_process_docs(logger)
+    if args.command == "generate":
+        return _cmd_generate(logger)
+    if args.command == "evaluate":
+        return _cmd_evaluate(logger)
+    if args.command == "combine":
+        return _cmd_combine(logger)
+
+    # Unknown command
+    logger.error("unknown command")
+    return 2
 
 
 if __name__ == "__main__":
