@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional, Union, cast
 
 import httpx
 from typing_extensions import TypedDict
+from src.providers.retry import async_retry
 import os
 
 from src.providers.interface import (
@@ -257,65 +258,60 @@ class AnthropicProvider:
         url: str,
         **kwargs
     ) -> httpx.Response:
-        """Make an HTTP request with retries for transient failures."""
-        last_exception = None
-        
-        for attempt in range(self.max_retries + 1):
+        """Make an HTTP request with centralized retry logic."""
+
+        class _Retryable429(Exception):
+            pass
+
+        class _Retryable5xx(Exception):
+            pass
+
+        class _RetryableNetwork(Exception):
+            pass
+
+        async def attempt() -> httpx.Response:
             try:
                 response = await self.client.request(method, url, **kwargs)
-                
-                # Check for errors
-                if response.status_code == 401:
-                    raise AuthError("Authentication failed: Invalid API key")
-                elif response.status_code == 429:
-                    retry_after = float(response.headers.get("retry-after", 1.0))
-                    if attempt < self.max_retries:
-                        logger.warning(
-                            f"Rate limited. Retrying after {retry_after} seconds (attempt {attempt + 1}/{self.max_retries})"
-                        )
-                        await asyncio.sleep(retry_after)
-                        continue
-                    raise RateLimitError(f"Rate limited. Retry after {retry_after} seconds")
-                elif response.status_code >= 500:
-                    if attempt < self.max_retries:
-                        delay = min(2 ** attempt, 60)  # Exponential backoff, max 60s
-                        logger.warning(
-                            f"Server error {response.status_code}. Retrying in {delay}s (attempt {attempt + 1}/{self.max_retries})"
-                        )
-                        await asyncio.sleep(delay)
-                        continue
-                    raise TransientError(f"Server error: {response.status_code}")
-                elif response.status_code >= 400:
-                    error_data = response.json().get("error", {})
-                    error_msg = error_data.get("message", f"Bad request: {response.status_code}")
-                    raise PermanentError(error_msg)
-                
-                # Request was successful
-                return response
-                
-            except (httpx.RequestError, httpx.HTTPStatusError) as e:
-                last_exception = e
-                if attempt == self.max_retries:
-                    break
-                    
-                # For network errors, use exponential backoff
-                delay = min(2 ** attempt, 60)  # Exponential backoff, max 60s
-                logger.warning(
-                    f"Request failed (attempt {attempt + 1}/{self.max_retries + 1}). "
-                    f"Retrying in {delay}s... Error: {str(e)}"
-                )
-                await asyncio.sleep(delay)
-        
-        # If we've exhausted all retries, raise the last exception
-        if isinstance(last_exception, httpx.HTTPStatusError):
-            if last_exception.response.status_code == 429:
-                raise RateLimitError(f"Rate limit exceeded after {self.max_retries + 1} attempts") from last_exception
-            elif last_exception.response.status_code >= 500:
-                raise TransientError(f"Server error after {self.max_retries + 1} attempts") from last_exception
-            else:
-                raise PermanentError(f"Request failed after {self.max_retries + 1} attempts") from last_exception
-        else:
-            raise TransientError(f"Request failed after {self.max_retries + 1} attempts") from last_exception
+            except httpx.RequestError as e:
+                # Network error, retryable
+                raise _RetryableNetwork(str(e)) from e
+
+            # Map statuses to errors/returns preserving previous semantics
+            if response.status_code == 401:
+                raise AuthError("Authentication failed: Invalid API key")
+            if response.status_code == 429:
+                # Signal retryable 429; overall handling after retries will raise RateLimitError
+                raise _Retryable429("rate limited")
+            if response.status_code >= 500:
+                raise _Retryable5xx(f"server error {response.status_code}")
+            if response.status_code >= 400:
+                error_data = response.json().get("error", {})
+                error_msg = error_data.get("message", f"Bad request: {response.status_code}")
+                raise PermanentError(error_msg)
+            return response
+
+        def classify(err: BaseException) -> str:
+            if isinstance(err, (_Retryable429, _Retryable5xx, _RetryableNetwork)):
+                return "retryable"
+            return "fatal"
+
+        try:
+            # Use exponential backoff with cap similar to previous behavior
+            return await async_retry(
+                attempt,
+                max_attempts=self.max_retries + 1,
+                base_delay=1.0,
+                max_delay=60.0,
+                classify_error_fn=classify,
+            )
+        except _Retryable429 as e:
+            raise RateLimitError("Rate limit exceeded after retries") from e
+        except _Retryable5xx as e:
+            # Preserve prior messaging used in tests
+            raise TransientError(f"Server error after {self.max_retries + 1} attempts") from e
+        except _RetryableNetwork as e:
+            # Preserve prior messaging used in tests
+            raise TransientError(f"Request failed after {self.max_retries + 1} attempts") from e
 
     async def close(self):
         """Close the HTTP client."""

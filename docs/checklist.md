@@ -188,7 +188,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 #### TICKET-023 — Rate Limiting & Retries
 - [x] TICKET-023.01 Write failing tests in tests/providers/test_rate_limits.py simulating 429/5xx and asserting exponential backoff and circuit breaker behavior.
 - [x] TICKET-023.02 Implement src/providers/rate_limit.py with token bucket implementation per provider.
-- [ ] TICKET-023.03 Implement src/providers/retry.py with tenacity/backoff policies; integrate with provider adapters.
+- [x] TICKET-023.03 Implement src/providers/retry.py with tenacity/backoff policies; integrate with provider adapters.
 - [ ] TICKET-023.04 Run tests; verify telemetry includes retry counts and breaker events.
 
 #### TICKET-024 — Error Taxonomy & Propagation
