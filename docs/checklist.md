@@ -182,7 +182,7 @@ Task ID format: {ticket_id}.{task_id}. All tasks start with tests (TDD), then im
 - [x] TICKET-022.01 Write failing tests in tests/cli/test_commands.py for subcommands run, process-docs, generate, evaluate, combine.
 - [x] TICKET-022.02 Add tests ensuring progress bars display expected stages and a final summary report is printed.
 - [x] TICKET-022.03 Implement src/cli.py subcommands wiring: run → full pipeline; others → respective modules.
-- [ ] TICKET-022.04 Implement src/cli/progress.py using rich to display progress and stage timing.
+- [x] TICKET-022.04 Implement src/cli/progress.py using rich to display progress and stage timing.
 - [ ] TICKET-022.05 Run tests; verify CLI exit codes and messages; refactor option parsing.
 
 #### TICKET-023 — Rate Limiting & Retries
